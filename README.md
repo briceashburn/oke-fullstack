@@ -51,7 +51,6 @@ This script will:
 
 - **Cloud:** Oracle Cloud Infrastructure (OCI)
 - **Kubernetes:** Oracle Kubernetes Engine (OKE)
-- **Ingress:** NGINX Ingress Controller (`64.181.211.83`)
 - **DNS/CDN:** Cloudflare (`briceashburn.com`)
 - **Registry:** Docker Hub (`briceashburn/backend`, `briceashburn/frontend`)
 
