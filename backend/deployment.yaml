@@ -58,6 +58,7 @@ spec:
             cpu: "500m"
         securityContext:
           runAsNonRoot: true
+          runAsUser: 1001
           readOnlyRootFilesystem: false
           allowPrivilegeEscalation: false
         volumeMounts:
