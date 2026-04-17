@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 import uvicorn
 import logging
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from borneo import QueryRequest
 from db import get_nosql_handle, close_nosql_handle
@@ -11,9 +12,20 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("Startup: initializing NoSQL handle")
+    get_nosql_handle()
+    yield
+    logger.info("Shutdown: closing NoSQL handle")
+    close_nosql_handle()
+
+
 app = FastAPI(
     title="Hello World API",
-    root_path="/api"
+    root_path="/api",
+    lifespan=lifespan,
 )
 
 @app.get("/")

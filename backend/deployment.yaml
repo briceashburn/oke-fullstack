@@ -80,8 +80,6 @@ spec:
         env:
         - name: OCI_REGION
           value: "us-chicago-1"
-        - name: USE_INSTANCE_PRINCIPAL
-          value: "false"
         - name: OCI_CONFIG_FILE
           value: "/oci/config"
         - name: OCI_KEY_FILE
