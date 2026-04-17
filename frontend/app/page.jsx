@@ -3,7 +3,6 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import TerminalWindow from "./components/TerminalWindow";
 import TypewriterText from "./components/TypewriterText";
-import { fetchHelloWorld } from "@/lib/api";
 
 const TERMINAL_LINES = [
   { type: "command", text: "whoami" },
@@ -19,15 +18,7 @@ const TERMINAL_LINES = [
   { type: "output", text: "available for new projects" },
 ];
 
-export default async function HomePage() {
-  let helloWorldData = null;
-  let helloWorldError = null;
-  try {
-    helloWorldData = await fetchHelloWorld();
-  } catch (e) {
-    helloWorldError = "connection refused";
-  }
-
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-black text-green-400 font-mono">
       <Nav />
@@ -55,37 +46,6 @@ export default async function HomePage() {
               ./contact
             </Link>
           </div>
-        </section>
-
-        {/* Live API */}
-        <section className="py-16">
-          <p className="mb-2 text-xs text-green-700"># live backend</p>
-          <h2 className="mb-6 text-lg font-bold text-green-300">
-            curl /api/hello-world
-          </h2>
-          <TerminalWindow title="curl — api response">
-            {helloWorldError ? (
-              <div className="text-sm">
-                <span className="text-green-700">$ </span>
-                <span className="text-green-300">curl https://briceashburn.com/api/hello-world</span>
-                <p className="mt-2 text-red-500">error: {helloWorldError}</p>
-              </div>
-            ) : (
-              <div>
-                <div className="mb-3 text-xs text-green-700">
-                  <span className="text-green-600">$ </span>
-                  <span className="text-green-300">curl https://briceashburn.com/api/hello-world</span>
-                </div>
-                <div className="mb-3 text-xs text-green-800">
-                  HTTP/1.1 200 OK &nbsp;·&nbsp; {helloWorldData?.count ?? 0} row
-                  {helloWorldData?.count !== 1 ? "s" : ""} returned
-                </div>
-                <pre className="overflow-x-auto text-xs text-green-600 leading-relaxed">
-                  {JSON.stringify(helloWorldData?.data ?? [], null, 2)}
-                </pre>
-              </div>
-            )}
-          </TerminalWindow>
         </section>
 
       </main>

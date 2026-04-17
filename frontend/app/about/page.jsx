@@ -2,6 +2,17 @@ import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import TerminalWindow from "../components/TerminalWindow";
 
+export const metadata = {
+  title: "About",
+  description: "Learn about Brice Ashburn — full-stack software engineer specializing in Next.js, Python, Kubernetes, and Oracle Cloud.",
+  alternates: { canonical: "https://briceashburn.com/about" },
+  openGraph: {
+    title: "About | Brice Ashburn",
+    description: "Learn about Brice Ashburn — full-stack software engineer specializing in Next.js, Python, Kubernetes, and Oracle Cloud.",
+    url: "https://briceashburn.com/about",
+  },
+};
+
 const SKILLS = [
   { label: "languages", items: ["javascript", "typescript", "python", "sql"] },
   { label: "frontend", items: ["react", "next.js", "tailwind css"] },

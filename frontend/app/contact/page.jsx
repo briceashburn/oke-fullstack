@@ -2,6 +2,17 @@ import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import TerminalWindow from "../components/TerminalWindow";
 
+export const metadata = {
+  title: "Contact",
+  description: "Get in touch with Brice Ashburn via email or GitHub.",
+  alternates: { canonical: "https://briceashburn.com/contact" },
+  openGraph: {
+    title: "Contact | Brice Ashburn",
+    description: "Get in touch with Brice Ashburn via email or GitHub.",
+    url: "https://briceashburn.com/contact",
+  },
+};
+
 const LINKS = [
   {
     label: "email",
