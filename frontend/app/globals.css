@@ -7,3 +7,21 @@
 html {
   scroll-behavior: smooth;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #14532d;
+  border-radius: 3px;
+}
+
+::selection {
+  background: #14532d;
+  color: #4ade80;
+}

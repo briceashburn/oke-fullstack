@@ -1,47 +1,65 @@
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import SectionLabel from "../components/SectionLabel";
+import TerminalWindow from "../components/TerminalWindow";
 
 const SKILLS = [
-  { label: "Languages", items: ["JavaScript", "TypeScript", "Python", "SQL"] },
-  { label: "Frontend", items: ["React", "Next.js", "Tailwind CSS"] },
-  { label: "Backend", items: ["Node.js", "FastAPI", "REST APIs"] },
-  { label: "Infrastructure", items: ["Docker", "Kubernetes", "Oracle Cloud"] },
+  { label: "languages", items: ["javascript", "typescript", "python", "sql"] },
+  { label: "frontend", items: ["react", "next.js", "tailwind css"] },
+  { label: "backend", items: ["node.js", "fastapi", "rest apis"] },
+  { label: "infra", items: ["docker", "kubernetes", "oracle cloud"] },
 ];
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-black text-green-400 font-mono">
       <Nav />
       <main className="mx-auto max-w-5xl px-6 pt-32 pb-24">
-        <SectionLabel>About</SectionLabel>
-        <h1 className="mb-6 text-4xl font-extrabold text-white">A bit about me</h1>
-        <p className="mb-12 max-w-2xl text-lg leading-relaxed text-slate-400">
-          I&apos;m a full-stack engineer passionate about building reliable
-          software and deploying it at scale. I enjoy working across the entire
-          stack — crafting smooth UIs, designing clean APIs, and wiring
-          everything together on cloud infrastructure.
-        </p>
+        <p className="mb-2 text-xs text-green-700"># about</p>
+        <h1 className="mb-8 text-2xl font-bold text-green-300">cat about.txt</h1>
 
-        <SectionLabel>Skills</SectionLabel>
-        <h2 className="mb-8 text-2xl font-bold text-white">What I work with</h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <TerminalWindow title="about.txt" className="mb-12 max-w-2xl">
+          <div className="space-y-3 text-sm leading-relaxed">
+            <div className="flex gap-4">
+              <span className="text-green-700 w-20 shrink-0">name</span>
+              <span className="text-green-800">→</span>
+              <span className="text-green-500">brice ashburn</span>
+            </div>
+            <div className="flex gap-4">
+              <span className="text-green-700 w-20 shrink-0">role</span>
+              <span className="text-green-800">→</span>
+              <span className="text-green-500">full-stack software engineer</span>
+            </div>
+            <div className="flex gap-4">
+              <span className="text-green-700 w-20 shrink-0">location</span>
+              <span className="text-green-800">→</span>
+              <span className="text-green-500">united states</span>
+            </div>
+            <div className="flex gap-4 pt-2">
+              <span className="text-green-700 w-20 shrink-0">bio</span>
+              <span className="text-green-800">→</span>
+              <span className="text-green-600 max-w-sm">
+                passionate about building reliable software and deploying it at
+                scale. i enjoy working across the entire stack — from smooth UIs
+                to cloud-native backends on kubernetes.
+              </span>
+            </div>
+          </div>
+        </TerminalWindow>
+
+        <p className="mb-2 text-xs text-green-700"># skills</p>
+        <h2 className="mb-6 text-lg font-bold text-green-300">cat skills.txt</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {SKILLS.map((group) => (
-            <div
-              key={group.label}
-              className="rounded-2xl border border-slate-800 bg-slate-900 p-6"
-            >
-              <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-indigo-400">
-                {group.label}
-              </h3>
-              <ul className="space-y-2">
+            <TerminalWindow key={group.label} title={group.label}>
+              <ul className="space-y-1">
                 {group.items.map((item) => (
-                  <li key={item} className="text-sm text-slate-300">
+                  <li key={item} className="text-sm text-green-600">
+                    <span className="text-green-800">- </span>
                     {item}
                   </li>
                 ))}
               </ul>
-            </div>
+            </TerminalWindow>
           ))}
         </div>
       </main>

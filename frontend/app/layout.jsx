@@ -1,8 +1,8 @@
-import { Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const mono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -31,8 +31,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-slate-950 text-slate-100 antialiased font-[var(--font-inter)]">
+    <html lang="en" className={mono.variable}>
+      <body className="min-h-screen bg-black text-green-400 antialiased font-mono">
         {children}
       </body>
     </html>
