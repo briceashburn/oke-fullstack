@@ -34,6 +34,7 @@ oke-fullstack/
 ```
 
 This script will:
+
 - Auto-increment the patch version for both backend and frontend
 - Build multi-arch Docker images (`linux/amd64`) and push to Docker Hub
 - Update both manifests with the new tags
@@ -41,10 +42,10 @@ This script will:
 
 ## Routing
 
-| Path       | Service          |
-|------------|------------------|
-| `/`        | frontend         |
-| `/api/*`   | backend          |
+| Path     | Service  |
+| -------- | -------- |
+| `/`      | frontend |
+| `/api/*` | backend  |
 
 ## Infrastructure
 
@@ -70,4 +71,3 @@ kubectl describe pods -l app=frontend      # Frontend pod details
 kubectl delete -f backend/deployment.yaml
 kubectl delete -f frontend/deployment.yaml
 ```
-

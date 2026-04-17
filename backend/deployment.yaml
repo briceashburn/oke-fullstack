@@ -17,11 +17,11 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: backend
-        image: docker.io/briceashburn/backend:1.0.17
+        image: docker.io/briceashburn/backend:1.0.20
         imagePullPolicy: Always
         ports:
         - name: http
-          containerPort: 8000
+          containerPort: 8080
           protocol: TCP
         livenessProbe:
           httpGet:
@@ -61,7 +61,7 @@ spec:
   type: ClusterIP
   ports:
   - port: 80
-    targetPort: 8000
+    targetPort: 8080
     protocol: TCP
   selector:
     app: backend
