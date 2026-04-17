@@ -1,4 +1,4 @@
-name: ci-cd
+name: Build and Deploy to OKE
 
 on:
   push:
