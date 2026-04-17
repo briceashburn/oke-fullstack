@@ -31,6 +31,8 @@ spec:
         env:
         - name: NEXT_PUBLIC_API_URL
           value: "https://briceashburn.com/api"
+        - name: API_URL
+          value: "http://backend-service/api"
         livenessProbe:
           httpGet:
             path: /

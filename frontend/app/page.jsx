@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import { fetchHelloWorld } from "@/lib/api";
 
 const API_LINKS = [
   {
@@ -30,7 +31,14 @@ const API_LINKS = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  let helloWorldData = null;
+  let helloWorldError = null;
+  try {
+    helloWorldData = await fetchHelloWorld();
+  } catch (e) {
+    helloWorldError = "Could not reach backend.";
+  }
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <Nav />
@@ -92,6 +100,28 @@ export default function HomePage() {
                 </code>
               </a>
             ))}
+          </div>
+
+          {/* Live data from /hello-world */}
+          <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-indigo-400">
+              Live Data
+            </p>
+            <h3 className="mb-4 text-lg font-semibold text-white">
+              GET /api/hello-world
+            </h3>
+            {helloWorldError ? (
+              <p className="text-sm text-red-400">{helloWorldError}</p>
+            ) : (
+              <>
+                <p className="mb-3 text-sm text-slate-400">
+                  {helloWorldData?.count ?? 0} row{helloWorldData?.count !== 1 ? "s" : ""} returned
+                </p>
+                <pre className="overflow-x-auto rounded-lg bg-slate-950 p-4 text-xs text-slate-300">
+                  {JSON.stringify(helloWorldData?.data ?? [], null, 2)}
+                </pre>
+              </>
+            )}
           </div>
         </section>
       </main>
