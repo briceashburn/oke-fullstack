@@ -26,10 +26,12 @@ jobs:
           chmod 600 $HOME/.kube/config
 
       - name: Deploy backend
-        run: kubectl apply -f backend/deployment.yaml
+        run: |
+          sed "s/##VERSION##/${{ github.event.workflow_run.run_number }}/g" backend/deployment.yaml | kubectl apply -f -
 
       - name: Deploy frontend
-        run: kubectl apply -f frontend/deployment.yaml
+        run: |
+          sed "s/##VERSION##/${{ github.event.workflow_run.run_number }}/g" frontend/deployment.yaml | kubectl apply -f -
 
       - name: Apply ingress
         run: kubectl apply -f ingress.yaml

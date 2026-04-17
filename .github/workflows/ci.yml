@@ -30,7 +30,7 @@ jobs:
           context: ./backend
           platforms: linux/amd64
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/backend:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/backend:${{ github.run_number }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v6
@@ -38,4 +38,4 @@ jobs:
           context: ./frontend
           platforms: linux/amd64
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/frontend:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/frontend:${{ github.run_number }}

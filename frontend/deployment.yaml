@@ -17,7 +17,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: frontend
-        image: docker.io/briceashburn/frontend:1.0.7
+        image: docker.io/briceashburn/frontend:##VERSION##
         imagePullPolicy: Always
         ports:
         - name: http

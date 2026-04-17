@@ -23,37 +23,23 @@ echo ""
 
 # --- BACKEND ---
 BACKEND_IMAGE_NAME="backend"
-BACKEND_CURRENT=$(grep 'image: docker.io/briceashburn/backend:' "${BACKEND_DIR}/deployment.yaml" | sed -E 's/.*backend:([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
-[ -z "$BACKEND_CURRENT" ] && BACKEND_CURRENT="1.0.0"
-IFS='.' read -r MA MI PA <<< "$BACKEND_CURRENT"
-unset IFS
-PA=$((PA + 1))
-BACKEND_NEW_TAG="$MA.$MI.$PA"
-BACKEND_IMAGE="docker.io/${DOCKER_USERNAME}/${BACKEND_IMAGE_NAME}:$BACKEND_NEW_TAG"
-echo "Backend: $BACKEND_CURRENT -> $BACKEND_NEW_TAG"
+BACKEND_IMAGE="docker.io/${DOCKER_USERNAME}/${BACKEND_IMAGE_NAME}:local-latest"
+echo "Backend: -> local-latest"
 
 docker buildx create --use --name multiarch-builder 2>/dev/null || docker buildx use multiarch-builder
 
 cd "$BACKEND_DIR"
 docker buildx build --platform linux/amd64 -t "${BACKEND_IMAGE}" --push .
-sed -i '' "s|image: *docker.io/briceashburn/backend:[0-9.]*|image: ${BACKEND_IMAGE}|g" "${BACKEND_DIR}/deployment.yaml"
 echo "Backend built and pushed: ${BACKEND_IMAGE}"
 echo ""
 
 # --- FRONTEND ---
 FRONTEND_IMAGE_NAME="frontend"
-FRONTEND_CURRENT=$(grep 'image: docker.io/briceashburn/frontend:' "${FRONTEND_DIR}/deployment.yaml" | sed -E 's/.*frontend:([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
-[ -z "$FRONTEND_CURRENT" ] && FRONTEND_CURRENT="1.0.0"
-IFS='.' read -r MA MI PA <<< "$FRONTEND_CURRENT"
-unset IFS
-PA=$((PA + 1))
-FRONTEND_NEW_TAG="$MA.$MI.$PA"
-FRONTEND_IMAGE="docker.io/${DOCKER_USERNAME}/${FRONTEND_IMAGE_NAME}:$FRONTEND_NEW_TAG"
-echo "Frontend: $FRONTEND_CURRENT -> $FRONTEND_NEW_TAG"
+FRONTEND_IMAGE="docker.io/${DOCKER_USERNAME}/${FRONTEND_IMAGE_NAME}:local-latest"
+echo "Frontend: -> local-latest"
 
 cd "$FRONTEND_DIR"
 docker buildx build --platform linux/amd64 -t "${FRONTEND_IMAGE}" --push .
-sed -i '' "s|image: *docker.io/briceashburn/frontend:[0-9.]*|image: ${FRONTEND_IMAGE}|g" "${FRONTEND_DIR}/deployment.yaml"
 echo "Frontend built and pushed: ${FRONTEND_IMAGE}"
 echo ""
 
