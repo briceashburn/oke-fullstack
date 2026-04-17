@@ -15,6 +15,7 @@ spec:
         app: backend
     spec:
       automountServiceAccountToken: true
+      serviceAccountName: backend-sa
       containers:
       - name: backend
         image: docker.io/briceashburn/backend:##VERSION##
