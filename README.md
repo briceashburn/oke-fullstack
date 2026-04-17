@@ -1,82 +1,60 @@
-# Hello World Python App - Oracle Kubernetes Deployment
+# oke-fullstack
 
-This project contains a simple Python FastAPI application that says "Hello World" and is ready to be deployed to an Oracle Kubernetes cluster.
+A fullstack monorepo deployed on Oracle Kubernetes Engine (OKE) with a FastAPI backend and frontend, served through NGINX Ingress at [briceashburn.com](https://briceashburn.com).
 
-## Project Structure
+## Structure
 
-- `app.py` - FastAPI application with `/`, `/health`, and `/readiness` endpoints
-- `requirements.txt` - Python dependencies (FastAPI, Uvicorn)
-- `Dockerfile` - Docker image definition
-- `deployment.yaml` - Kubernetes Deployment and Service manifests
-- `quick-deploy.sh` - Automated build, push, and deploy script
+```
+oke-fullstack/
+├── backend/                  # FastAPI application
+│   ├── app.py                # API with /, /health, /readiness endpoints
+│   ├── requirements.txt      # Python dependencies (FastAPI, Uvicorn)
+│   ├── Dockerfile            # Multi-arch Docker image (linux/amd64)
+│   └── deployment.yaml       # Kubernetes Deployment, Service, Ingress
+├── frontend/                 # Frontend application (coming soon)
+├── quick-deploy.sh           # Automated build, push, and deploy script
+└── README.md
+```
 
 ## Prerequisites
 
 - Docker installed and running
 - kubectl configured to access your Oracle Kubernetes cluster
-- Access to Docker Hub (default) or another container registry
+- Docker Hub account
 
-## Step 1: Start Docker Daemon
-
-On macOS, you can start Docker using:
-
-```bash
-open /Applications/Docker.app
-```
-
-Wait a few seconds for Docker to fully start.
-
-## Step 2: Deploy with the Script
-
-From the project directory:
+## Deploy
 
 ```bash
 ./quick-deploy.sh
 ```
 
-- This script will build the Docker image, auto-increment the version tag, push to Docker Hub, update the manifest, and deploy to your cluster.
-- Confirm the deployment when prompted.
+This script will:
+- Read the current image tag from `backend/deployment.yaml`
+- Auto-increment the patch version (e.g. `1.0.14` → `1.0.15`)
+- Build a multi-arch Docker image (`linux/amd64`) and push to Docker Hub
+- Update the manifest with the new tag
+- Apply the deployment to your OKE cluster and wait for rollout
 
-## Step 3: Access the Application
+## Infrastructure
 
-Check the status of your deployment:
-
-```bash
-kubectl get deployments
-kubectl get services
-```
-
-Get the external IP address:
-
-```bash
-kubectl get service hello-world-service
-```
-
-Once you have the EXTERNAL-IP, access the application:
-
-```bash
-curl http://<EXTERNAL-IP>
-# Should return: {"message": "Hello World!", ...}
-```
+- **Cloud:** Oracle Cloud Infrastructure (OCI)
+- **Kubernetes:** Oracle Kubernetes Engine (OKE)
+- **Ingress:** NGINX Ingress Controller with LoadBalancer (`64.181.211.83`)
+- **DNS/CDN:** Cloudflare (`briceashburn.com`)
+- **Registry:** Docker Hub (`briceashburn/hello-world-app`)
 
 ## Monitoring
 
-View pod status:
-
 ```bash
-kubectl get pods -l app=hello-world
+kubectl get pods -l app=hello-world        # View pods
+kubectl logs -l app=hello-world -f         # View logs
+kubectl describe pods -l app=hello-world   # Detailed pod info
 ```
 
-View logs:
+## Cleanup
 
 ```bash
-kubectl logs -l app=hello-world
-```
-
-View detailed pod information:
-
-```bash
-kubectl describe pods -l app=hello-world
+kubectl delete -f backend/deployment.yaml
 ```
 
 ## Cleanup
