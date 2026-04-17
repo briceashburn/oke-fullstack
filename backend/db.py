@@ -27,7 +27,6 @@ def get_nosql_handle() -> NoSQLHandle:
     config = NoSQLHandleConfig(region, provider)
     if compartment:
         config.set_default_compartment(compartment)
-        logger.info("NoSQL: using compartment %s", compartment)
     _handle = NoSQLHandle(config)
     logger.info("NoSQL: handle created")
     return _handle
