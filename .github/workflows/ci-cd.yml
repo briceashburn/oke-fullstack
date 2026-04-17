@@ -101,10 +101,18 @@ jobs:
         run: |
           sed "s/##VERSION##/${{ github.run_number }}/g" backend/deployment.yaml | kubectl apply -f -
 
+      - name: Apply backend HPA
+        if: needs.changes.outputs.backend == 'true'
+        run: kubectl apply -f backend/hpa.yaml
+
       - name: Deploy frontend
         if: needs.changes.outputs.frontend == 'true'
         run: |
           sed "s/##VERSION##/${{ github.run_number }}/g" frontend/deployment.yaml | kubectl apply -f -
+
+      - name: Apply frontend HPA
+        if: needs.changes.outputs.frontend == 'true'
+        run: kubectl apply -f frontend/hpa.yaml
 
       - name: Apply ingress
         run: kubectl apply -f ingress.yaml
