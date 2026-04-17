@@ -39,7 +39,7 @@ async def readiness():
     }
 
 
-@app.get("/hello-world")
+@app.get("/hello-world", responses={500: {"description": "Internal server error"}})
 async def get_hello_world():
     try:
         handle = get_nosql_handle()
