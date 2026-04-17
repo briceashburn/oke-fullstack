@@ -57,7 +57,7 @@ spec:
             memory: "256Mi"
             cpu: "500m"
         securityContext:
-          runAsNonRoot: false
+          runAsNonRoot: true
           readOnlyRootFilesystem: false
           allowPrivilegeEscalation: false
         volumeMounts:
