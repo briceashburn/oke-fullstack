@@ -56,7 +56,7 @@ async def get_hello_world():
         return {"data": results, "count": len(results)}
     except Exception as e:
         logger.error("Error querying NoSQL table: %s", str(e))
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 if __name__ == "__main__":
