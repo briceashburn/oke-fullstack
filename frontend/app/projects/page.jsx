@@ -52,9 +52,9 @@ export default function ProjectsPage() {
         <p className="mb-2 text-xs text-green-700"># projects</p>
         <h1 className="mb-8 text-2xl font-bold text-green-300">ls -la ~/projects/</h1>
 
-        <div className={`flex gap-6 ${selected ? "items-start" : ""}`}>
+        <div className="flex flex-col gap-6">
           {/* Project list */}
-          <div className={selected ? "w-full lg:w-1/2 shrink-0" : "w-full"}>
+          <div className="w-full">
             <TerminalWindow title="bash — ~/projects">
               <div className="text-xs text-green-800 mb-4">total {PROJECTS.length}</div>
               <div className="space-y-3">
@@ -99,7 +99,7 @@ export default function ProjectsPage() {
 
           {/* Side card */}
           {selected && (
-            <div className="w-full lg:w-1/2 space-y-4">
+            <div className="w-full space-y-4">
               {/* Project info */}
               <TerminalWindow title={`${selected.title}/README`}>
                 <div className="space-y-2 text-xs">
