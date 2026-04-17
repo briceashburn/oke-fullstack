@@ -9,13 +9,23 @@ on:
       - 'frontend/**'
       - 'ingress.yaml'
       - '.github/workflows/ci-cd.yml'
+  workflow_dispatch:
+    inputs:
+      deploy_backend:
+        description: 'Deploy backend'
+        type: boolean
+        default: true
+      deploy_frontend:
+        description: 'Deploy frontend'
+        type: boolean
+        default: true
 
 jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      backend: ${{ steps.filter.outputs.backend }}
-      frontend: ${{ steps.filter.outputs.frontend }}
+      backend: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_backend || steps.filter.outputs.backend }}
+      frontend: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_frontend || steps.filter.outputs.frontend }}
     steps:
       - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v4.0.1
