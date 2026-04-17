@@ -21,8 +21,13 @@ def get_nosql_handle() -> NoSQLHandle:
         logger.info("NoSQL: connecting via Resource Principal (region=%s)", region)
         provider = SignatureProvider.create_with_resource_principal()
     else:
-        logger.info("NoSQL: connecting via ~/.oci/config (region=%s)", region)
-        provider = SignatureProvider()
+        config_file = os.getenv("OCI_CONFIG_FILE", "~/.oci/config")
+        key_file = os.getenv("OCI_KEY_FILE")
+        logger.info("NoSQL: connecting via config file %s (region=%s)", config_file, region)
+        if key_file:
+            provider = SignatureProvider(config_file=config_file, config_profile="DEFAULT", private_key=key_file)
+        else:
+            provider = SignatureProvider(config_file=config_file)
 
     config = NoSQLHandleConfig(region, provider)
     if compartment:

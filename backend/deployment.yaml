@@ -16,6 +16,15 @@ spec:
     spec:
       automountServiceAccountToken: true
       serviceAccountName: backend-sa
+      volumes:
+      - name: oci-credentials
+        secret:
+          secretName: oci-credentials
+          items:
+          - key: config
+            path: config
+          - key: key
+            path: key
       containers:
       - name: backend
         image: docker.io/briceashburn/backend:##VERSION##
@@ -51,11 +60,19 @@ spec:
           runAsNonRoot: false
           readOnlyRootFilesystem: false
           allowPrivilegeEscalation: false
+        volumeMounts:
+        - name: oci-credentials
+          mountPath: /oci
+          readOnly: true
         env:
         - name: OCI_REGION
           value: "us-chicago-1"
         - name: USE_INSTANCE_PRINCIPAL
-          value: "true"
+          value: "false"
+        - name: OCI_CONFIG_FILE
+          value: "/oci/config"
+        - name: OCI_KEY_FILE
+          value: "/oci/key"
         - name: OCI_COMPARTMENT_ID
           valueFrom:
             secretKeyRef:
