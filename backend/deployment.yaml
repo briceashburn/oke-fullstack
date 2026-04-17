@@ -55,6 +55,11 @@ spec:
           value: "us-chicago-1"
         - name: USE_INSTANCE_PRINCIPAL
           value: "true"
+        - name: OCI_COMPARTMENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: oci-config
+              key: compartment-id
 ---
 apiVersion: v1
 kind: Service

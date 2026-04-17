@@ -1,19 +1,20 @@
 from fastapi import FastAPI, HTTPException
 import uvicorn
+import logging
 from datetime import datetime, timezone
 from borneo import QueryRequest
 from db import get_nosql_handle, close_nosql_handle
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Hello World API",
     root_path="/api"
 )
-
-
-@app.on_event("shutdown")
-def shutdown():
-    close_nosql_handle()
-
 
 @app.get("/")
 async def hello_world():
@@ -41,6 +42,7 @@ async def readiness():
 
 @app.get("/hello-world", responses={500: {"description": "Internal server error"}})
 async def get_hello_world():
+    logger.info("Querying NoSQL table...")
     try:
         handle = get_nosql_handle()
         request = QueryRequest().set_statement("SELECT * FROM hello_world")
@@ -50,8 +52,10 @@ async def get_hello_world():
             results.extend(result.get_results())
             if request.is_done():
                 break
+        logger.info("NoSQL query returned %d rows", len(results))
         return {"data": results, "count": len(results)}
     except Exception as e:
+        logger.error("Error querying NoSQL table: %s", str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
 

@@ -1,32 +1,35 @@
 import os
-from borneo import NoSQLHandle, NoSQLHandleConfig, Regions
+import logging
+from borneo import NoSQLHandle, NoSQLHandleConfig
 from borneo.iam import SignatureProvider
+
+logger = logging.getLogger(__name__)
 
 _handle = None
 
 
 def get_nosql_handle() -> NoSQLHandle:
-    """
-    Returns a singleton NoSQL handle.
-    Uses Instance Principal auth when running on OKE (no credentials needed).
-    Falls back to a local config file for local development.
-    """
     global _handle
     if _handle is not None:
         return _handle
 
     region = os.getenv("OCI_REGION", "us-chicago-1")
+    compartment = os.getenv("OCI_COMPARTMENT_ID")
     use_instance_principal = os.getenv("USE_INSTANCE_PRINCIPAL", "false").lower() == "true"
 
     if use_instance_principal:
-        # Auth via OKE Instance/Resource Principal — no keys required
+        logger.info("NoSQL: connecting via Instance Principal (region=%s)", region)
         provider = SignatureProvider.create_with_instance_principal()
     else:
-        # Local dev: uses ~/.oci/config
+        logger.info("NoSQL: connecting via ~/.oci/config (region=%s)", region)
         provider = SignatureProvider()
 
     config = NoSQLHandleConfig(region, provider)
+    if compartment:
+        config.set_default_compartment(compartment)
+        logger.info("NoSQL: using compartment %s", compartment)
     _handle = NoSQLHandle(config)
+    logger.info("NoSQL: handle created")
     return _handle
 
 
@@ -35,3 +38,4 @@ def close_nosql_handle():
     if _handle:
         _handle.close()
         _handle = None
+        logger.info("NoSQL: handle closed")
