@@ -2,7 +2,7 @@ import Link from "next/link";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <Nav />
