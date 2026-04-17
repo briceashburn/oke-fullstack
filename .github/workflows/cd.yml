@@ -1,0 +1,46 @@
+name: cd
+
+on:
+  workflow_run:
+    workflows: [ci]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Deploy backend
+        run: kubectl apply -f backend/deployment.yaml
+
+      - name: Deploy frontend
+        run: kubectl apply -f frontend/deployment.yaml
+
+      - name: Apply ingress
+        run: kubectl apply -f ingress.yaml
+
+      - name: Wait for rollouts
+        run: |
+          kubectl rollout status deployment/backend --timeout=5m
+          kubectl rollout status deployment/frontend --timeout=5m
+
+      - name: Deployment summary
+        run: |
+          echo "Deployment complete"
+          kubectl get deployments
+          kubectl get services backend-service frontend-service
