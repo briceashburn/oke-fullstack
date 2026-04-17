@@ -2,6 +2,34 @@ import Link from "next/link";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 
+const API_LINKS = [
+  {
+    label: "Hello World",
+    href: "/api/",
+    description: "GET /api/",
+  },
+  {
+    label: "Health Check",
+    href: "/api/health",
+    description: "GET /api/health",
+  },
+  {
+    label: "Readiness",
+    href: "/api/readiness",
+    description: "GET /api/readiness",
+  },
+  {
+    label: "Swagger UI",
+    href: "/api/docs",
+    description: "Interactive API docs",
+  },
+  {
+    label: "ReDoc",
+    href: "/api/redoc",
+    description: "API reference docs",
+  },
+];
+
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -35,6 +63,35 @@ export default function HomePage() {
             >
               Get in Touch
             </Link>
+          </div>
+        </section>
+
+        {/* Backend API */}
+        <section className="py-24">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-indigo-400">
+            Backend
+          </p>
+          <h2 className="mb-2 text-2xl font-bold text-white">API Endpoints</h2>
+          <p className="mb-8 text-sm text-slate-400">
+            FastAPI backend running on Kubernetes — click any endpoint to test it live.
+          </p>
+          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-5">
+            {API_LINKS.map(({ label, href, description }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col gap-2 rounded-2xl border border-slate-800 bg-slate-900 p-5 transition-colors hover:border-indigo-500/50 hover:bg-slate-800"
+              >
+                <span className="text-sm font-semibold text-white group-hover:text-indigo-400 transition-colors">
+                  {label}
+                </span>
+                <code className="text-xs text-slate-500 group-hover:text-slate-400 transition-colors">
+                  {description}
+                </code>
+              </a>
+            ))}
           </div>
         </section>
       </main>
