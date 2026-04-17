@@ -1,31 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: frontend
   labels:
-    app: backend
+    app: frontend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: backend
+      app: frontend
   template:
     metadata:
       labels:
-        app: backend
+        app: frontend
     spec:
       automountServiceAccountToken: false
       containers:
-      - name: backend
-        image: docker.io/briceashburn/backend:1.0.17
+      - name: frontend
+        image: docker.io/briceashburn/frontend:1.0.1
         imagePullPolicy: Always
         ports:
         - name: http
-          containerPort: 8000
+          containerPort: 3000
           protocol: TCP
+        env:
+        - name: NEXT_PUBLIC_API_URL
+          value: "https://briceashburn.com/api"
         livenessProbe:
           httpGet:
-            path: /health
+            path: /
             port: http
           initialDelaySeconds: 30
           periodSeconds: 300
@@ -33,18 +36,18 @@ spec:
           failureThreshold: 3
         readinessProbe:
           httpGet:
-            path: /readiness
+            path: /
             port: http
-          initialDelaySeconds: 30
+          initialDelaySeconds: 15
           periodSeconds: 300
           timeoutSeconds: 3
           failureThreshold: 2
         resources:
           requests:
-            memory: "64Mi"
+            memory: "128Mi"
             cpu: "100m"
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "500m"
         securityContext:
           runAsNonRoot: false
@@ -54,41 +57,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-service
+  name: frontend-service
   labels:
-    app: backend
+    app: frontend
 spec:
   type: ClusterIP
   ports:
   - port: 80
-    targetPort: 8000
+    targetPort: 3000
     protocol: TCP
   selector:
-    app: backend
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: backend-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: briceashburn.com
-    http:
-      paths:
-      - path: /api(/|$)(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: backend-service
-            port:
-              number: 80
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend-service
-            port:
-              number: 80
+    app: frontend

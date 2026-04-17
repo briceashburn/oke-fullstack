@@ -21,14 +21,26 @@ env/
 node_modules/
 .next/
 out/
-dist/
 .cache/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+package-lock.json
 
 # Docker
 .docker/
 
 # macOS
 .DS_Store
+*.pem
 
 # VS Code
 .vscode/
@@ -41,3 +53,7 @@ dist/
 *.log
 *.tmp
 .image_tag
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
