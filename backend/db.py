@@ -25,7 +25,7 @@ def get_nosql_handle() -> NoSQLHandle:
         key_file = os.getenv("OCI_KEY_FILE")
         logger.info("NoSQL: connecting via config file %s (region=%s)", config_file, region)
         if key_file:
-            provider = SignatureProvider(config_file=config_file, config_profile="DEFAULT", private_key=key_file)
+            provider = SignatureProvider(config_file=config_file, profile_name="DEFAULT", private_key=key_file)
         else:
             provider = SignatureProvider(config_file=config_file)
 
