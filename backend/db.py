@@ -18,8 +18,8 @@ def get_nosql_handle() -> NoSQLHandle:
     use_instance_principal = os.getenv("USE_INSTANCE_PRINCIPAL", "false").lower() == "true"
 
     if use_instance_principal:
-        logger.info("NoSQL: connecting via Instance Principal (region=%s)", region)
-        provider = SignatureProvider.create_with_instance_principal()
+        logger.info("NoSQL: connecting via Resource Principal (region=%s)", region)
+        provider = SignatureProvider.create_with_resource_principal()
     else:
         logger.info("NoSQL: connecting via ~/.oci/config (region=%s)", region)
         provider = SignatureProvider()
