@@ -20,9 +20,19 @@ const LINKS = [
     href: "mailto:briceashburn@hotmail.com",
   },
   {
+    label: "linkedin",
+    value: "linkedin.com/in/brice-ashburn",
+    href: "https://linkedin.com/in/brice-ashburn",
+  },
+  {
     label: "github",
     value: "github.com/briceashburn",
     href: "https://github.com/briceashburn",
+  },
+  {
+    label: "phone",
+    value: "(832) 696-1902",
+    href: "tel:+18326961902",
   },
 ];
 

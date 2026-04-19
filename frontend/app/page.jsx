@@ -6,16 +6,19 @@ import TypewriterText from "./components/TypewriterText";
 
 const TERMINAL_LINES = [
   { type: "command", text: "whoami" },
-  { type: "output", text: "brice ashburn — full-stack software engineer" },
+  { type: "output", text: "brice ashburn — software engineer" },
   { type: "blank" },
   { type: "command", text: "cat skills.txt" },
-  { type: "output", text: "languages  →  javascript, python, sql" },
-  { type: "output", text: "cloud      →  kubernetes, oracle cloud, docker" },
-  { type: "output", text: "frontend   →  react, next.js, tailwind css" },
-  { type: "output", text: "backend    →  fastapi, node.js, rest apis" },
+  { type: "output", text: "languages  →  python, java, react, sql, c++, shell" },
+  { type: "output", text: "cloud      →  microsoft azure, terraform, arm templates" },
+  { type: "output", text: "devops     →  azure devops, github actions, ci/cd" },
+  { type: "output", text: "practices  →  rest apis, event-driven arch, high availability" },
+  { type: "blank" },
+  { type: "command", text: "cat experience.txt" },
+  { type: "output", text: "general motors — software engineer, 2022 – present" },
   { type: "blank" },
   { type: "command", text: "uptime" },
-  { type: "output", text: "available for new projects" },
+  { type: "output", text: "austin, tx — open to new opportunities" },
 ];
 
 export default function HomePage() {
